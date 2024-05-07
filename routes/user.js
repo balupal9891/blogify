@@ -22,7 +22,9 @@ router.post("/signup", async (req, res)=>{
         throw new Error("user not created")
     }
 
-    return res.redirect("/")
+    const token = await User.matchPasswordAndGenerateToken(email, password);
+
+    return res.cookie("token", token).redirect("/")
 })
 
 router.post("/signin", async (req, res)=>{
